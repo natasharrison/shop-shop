@@ -11,26 +11,26 @@ import { UPDATE_PRODUCTS } from '../../utils/actions';
 function ProductList() {
   const [state, dispatch] = useStoreContext();
 
-const { currentCategory } = state;
+  const { currentCategory } = state;
 
-const { loading, data } = useQuery(QUERY_PRODUCTS);
+  const { loading, data } = useQuery(QUERY_PRODUCTS);
 
-useEffect(() => {
-  if (data) {
-    dispatch({
-      type: UPDATE_PRODUCTS,
-      products: data.products
-    });
+  useEffect(() => {
+    if (data) {
+      dispatch({
+        type: UPDATE_PRODUCTS,
+        products: data.products
+      });
+    }
+  }, [data, dispatch]);
+
+  function filterProducts() {
+    if (!currentCategory) {
+      return state.products;
+    }
+
+    return state.products.filter(product => product.category._id === currentCategory);
   }
-}, [data, dispatch]);
-
-function filterProducts() {
-  if (!currentCategory) {
-    return state.products;
-  }
-
-  return state.products.filter(product => product.category._id === currentCategory);
-}
 
   return (
     <div className="my-2">
